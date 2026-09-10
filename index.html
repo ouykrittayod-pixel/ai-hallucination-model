@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Hallucination — A Conceptual Mathematical Model</title>
+<meta name="description" content="แบบจำลองเชิงแนวคิดทางคณิตศาสตร์เพื่ออธิบายความเสี่ยงของ AI Hallucination โดย Krittayod Vipromha มหาวิทยาลัยหอการค้าไทย">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/[email protected]/dist/katex.min.css">
+
+<link rel="stylesheet" href="style.css">
+<noscript><style>.reveal{opacity:1 !important; transform:none !important;}</style></noscript>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+<div id="scroll-progress"></div>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span> AI_HALLUCINATION.model</div>
+    <ul class="navlinks">
+      <li><a href="#what-is">Overview</a></li>
+      <li><a href="#factors">Risk Factors</a></li>
+      <li><a href="#model">Model</a></li>
+      <li><a href="#curve">Curve</a></li>
+      <li><a href="#scenarios">Scenarios</a></li>
+      <li><a href="#thresholds">Thresholds</a></li>
+      <li><a href="#insight">Insight</a></li>
+      <li><a href="#verification">Verification</a></li>
+      <li><a href="#limitations">Limitations</a></li>
+      <li><a href="#sources">Sources</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="wrap">
+    <div class="hero-eyebrow">Academic Research Project — <b>Faculty of Engineering, UTCC</b></div>
+    <h1>AI HALLUCINATION</h1>
+    <div class="subtitle">A Conceptual Mathematical Model</div>
+    <p class="desc">
+      แบบจำลองเชิงแนวคิด (Conceptual Model) ที่ใช้ฟังก์ชันโลจิสติกอธิบายว่าความเสี่ยงของการเกิด
+      AI Hallucination เป็นผลรวมของหลายปัจจัยที่ทำงานร่วมกัน — ไม่ใช่มาตรวัดที่ผ่านการทดลองจริงจากระบบ AI ใด ๆ
+      แต่เป็นเครื่องมือช่วยจัดระเบียบความเข้าใจเชิงมโนทัศน์
+    </p>
+    <div class="hero-actions">
+      <a href="#model" class="btn btn-primary">Explore Model ↓</a>
+      <a href="#sources" class="btn btn-ghost">ดูไฟล์ต้นฉบับ</a>
+    </div>
+    <div class="hero-meta">
+      <div><span>Researcher</span>Krittayod Vipromha</div>
+      <div><span>Student ID</span>2610717302033</div>
+      <div><span>Program</span>Computer Engineering &amp; AI</div>
+      <div><span>Institution</span>University of the Thai Chamber of Commerce</div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>SCROLL</span><span class="line"></span></div>
+</header>
+
+<main>
+
+<!-- ================= 2. WHAT IS AI HALLUCINATION ================= -->
+<section id="what-is" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">01 / DEFINITION</div>
+      <h2>AI Hallucination คืออะไร</h2>
+      <p class="lede">
+        ปรากฏการณ์ที่แบบจำลองปัญญาประดิษฐ์เชิงรู้สร้าง (Generative AI) สร้างเนื้อหาที่ดูมีความสมเหตุสมผลในเชิงภาษา
+        แต่ไม่ถูกต้องตามข้อเท็จจริง ไม่สอดคล้องกับแหล่งข้อมูลอ้างอิง หรือเป็นข้อมูลที่ไม่มีอยู่จริง
+        เกิดขึ้นได้แม้ในแบบจำลองที่มีประสิทธิภาพสูง เพราะกลไกการทำงานคือการทำนายลำดับคำที่มีความน่าจะเป็นสูงสุด
+        มิใช่การตรวจสอบความจริงจากฐานความรู้ที่ตายตัว
+      </p>
+    </div>
+
+    <div class="compare">
+      <div class="compare-card truth">
+        <h4>◎ CORRECT INFORMATION</h4>
+        <div class="compare-row"><b>Input</b>What is the capital of France?</div>
+        <div class="compare-row"><b>Response</b>The capital of France is Paris.</div>
+        <div class="compare-row"><b>ลักษณะ</b>สอดคล้องกับข้อเท็จจริงและตรวจสอบอ้างอิงได้</div>
+      </div>
+      <div class="compare-card fake">
+        <h4>✕ HALLUCINATED INFORMATION</h4>
+        <div class="compare-row"><b>Input</b>What is the capital of France?</div>
+        <div class="compare-row"><b>Response</b>ข้อมูลที่ไม่ตรงกับข้อเท็จจริง / ไม่มีอยู่จริง</div>
+        <div class="compare-row"><b>ลักษณะ</b>ดูสมเหตุสมผลเชิงภาษา แต่คลาดเคลื่อนหรือถูกแต่งขึ้น</div>
+      </div>
+    </div>
+
+    <figure class="figure">
+      <img src="assets/images/hallucination-comparison.jpg" alt="ภาพเปรียบเทียบ Correct Data กับ Hallucinated Data ของ AI" loading="lazy">
+      <figcaption>
+        <span>Fig. 01 — Truth vs. Generated Probability</span>
+        <span>ภาพอ้างอิงประกอบรายงาน / ไม่ใช่ผลการทดลองของแบบจำลองนี้</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= 3. FOUR RISK FACTORS ================= -->
+<section id="factors" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">02 / VARIABLES</div>
+      <h2>ปัจจัยความเสี่ยงทั้งสี่</h2>
+      <p class="lede">
+        แบบจำลองกำหนดตัวแปรหลัก 4 ตัว โดยทุกตัวแปรอยู่ในช่วง [0, 1] — คลิกที่การ์ดเพื่อดูผลกระทบต่อ H
+      </p>
+    </div>
+
+    <div class="factor-grid" id="factor-grid">
+      <div class="factor-card up" data-factor="U">
+        <div class="factor-letter">U</div>
+        <div class="factor-name">DATA UNCERTAINTY</div>
+        <div class="factor-desc">ความไม่แน่นอนของข้อมูลที่แบบจำลองมีอยู่เกี่ยวกับหัวข้อที่ถูกถาม ค่าสูง = ข้อมูลคลุมเครือ ขัดแย้งกันเอง หรือไม่เพียงพอ</div>
+        <div class="factor-effect">▲ เพิ่มความเสี่ยง H</div>
+      </div>
+      <div class="factor-card up" data-factor="C">
+        <div class="factor-letter">C</div>
+        <div class="factor-name">QUESTION COMPLEXITY</div>
+        <div class="factor-desc">ความซับซ้อนของคำถามหรือภารกิจ ครอบคลุมโครงสร้างคำถาม จำนวนขั้นตอนการให้เหตุผล และความเฉพาะทาง</div>
+        <div class="factor-effect">▲ เพิ่มความเสี่ยง H</div>
+      </div>
+      <div class="factor-card down" data-factor="P">
+        <div class="factor-letter">P</div>
+        <div class="factor-name">PROMPT QUALITY</div>
+        <div class="factor-desc">คุณภาพของ Prompt ที่ผู้ใช้ป้อนให้แบบจำลอง ครอบคลุมความชัดเจน ความเฉพาะเจาะจง และโครงสร้างของคำสั่ง</div>
+        <div class="factor-effect">▼ ลดความเสี่ยง H</div>
+      </div>
+      <div class="factor-card down" data-factor="B">
+        <div class="factor-letter">B</div>
+        <div class="factor-name">CONTEXT</div>
+        <div class="factor-desc">ปริมาณและความเกี่ยวข้องของบริบทหรือข้อมูลสนับสนุนที่แบบจำลองได้รับ เช่น เอกสารอ้างอิง หรือข้อมูลจาก Retrieval</div>
+        <div class="factor-effect">▼ ลดความเสี่ยง H</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4. MATHEMATICAL MODEL ================= -->
+<section id="model" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">03 / EQUATION</div>
+      <h2>Mathematical Model</h2>
+      <p class="lede">
+        เนื่องจากค่าความเสี่ยง H ต้องอยู่ในช่วง [0, 1] แบบจำลองนี้เลือกใช้ฟังก์ชันโลจิสติก (Logistic Function)
+        ซึ่งให้ผลลัพธ์อยู่ใน (0, 1) เสมอ มีรูปทรง Sigmoid และสามารถรวมตัวแปรหลายตัวผ่านตัวแปรกลาง Z ได้
+      </p>
+    </div>
+
+    <div class="eq-block">
+      <div id="eq-main"></div>
+      <div id="eq-z"></div>
+      <div class="eq-note">H(U,C,P,B) คือความเสี่ยงของ Hallucination · Z คือตัวแปรเชิงเส้นรวม (Linear Combination)</div>
+    </div>
+
+    <table class="var-table">
+      <thead><tr><th>สัมประสิทธิ์</th><th>ความหมาย</th><th>ทิศทาง</th></tr></thead>
+      <tbody>
+        <tr><td><b>a</b></td><td>น้ำหนักผลกระทบของความไม่แน่นอนของข้อมูล U</td><td>บวก (+)</td></tr>
+        <tr><td><b>b</b></td><td>น้ำหนักผลกระทบของความซับซ้อนของคำถาม C</td><td>บวก (+)</td></tr>
+        <tr><td><b>c</b></td><td>น้ำหนักผลกระทบของคุณภาพ Prompt P</td><td>ลบ (−)</td></tr>
+        <tr><td><b>d</b></td><td>น้ำหนักผลกระทบของบริบท B</td><td>ลบ (−)</td></tr>
+        <tr><td><b>k</b></td><td>ค่าคงที่ปรับฐาน (Baseline Constant) — เลื่อนตำแหน่งเส้นโค้งบนแกน Z</td><td>คงที่</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <b>ข้อควรระวัง —</b> พารามิเตอร์สาธิต a = 8, b = 4, c = 3, d = 2, k = −5 เป็นค่าที่ <b>สมมติขึ้นเพื่อสาธิตพฤติกรรมของแบบจำลอง</b>
+      ไม่ใช่ค่าที่ได้จากการฝึกฝนหรือวัดจากระบบ AI จริงแต่อย่างใด (a มากที่สุดสะท้อนว่า Data Uncertainty มีอิทธิพลสูงสุด, k เลื่อนจุดสมดุลของเส้นโค้งให้เหมาะกับช่วง U ∈ [0,1])
+    </div>
+
+    <!-- interactive demo -->
+    <div class="demo">
+      <div class="section-head" style="margin-bottom:28px;">
+        <div class="kicker">LIVE DEMO</div>
+        <h3 style="font-size:1.3rem;">ทดลองปรับค่าตัวแปรด้วยตนเอง</h3>
+      </div>
+      <div class="demo-grid">
+        <div class="demo-sliders">
+          <div class="slider-row risk-up">
+            <label>U — Data Uncertainty <b id="val-U">0.50</b></label>
+            <input type="range" id="slide-U" min="0" max="1" step="0.01" value="0.5">
+          </div>
+          <div class="slider-row risk-up">
+            <label>C — Question Complexity <b id="val-C">0.50</b></label>
+            <input type="range" id="slide-C" min="0" max="1" step="0.01" value="0.5">
+          </div>
+          <div class="slider-row">
+            <label>P — Prompt Quality <b id="val-P">0.50</b></label>
+            <input type="range" id="slide-P" min="0" max="1" step="0.01" value="0.5">
+          </div>
+          <div class="slider-row">
+            <label>B — Context <b id="val-B">0.50</b></label>
+            <input type="range" id="slide-B" min="0" max="1" step="0.01" value="0.5">
+          </div>
+        </div>
+        <div class="demo-readout">
+          <div class="readout-label">HALLUCINATION RISK</div>
+          <div class="readout-h" id="readout-h">0.50</div>
+          <div class="demo-bar"><div class="demo-bar-fill" id="demo-bar-fill"></div></div>
+          <div class="risk-pill" id="risk-pill">MEDIUM RISK</div>
+          <div class="readout-z" id="readout-z">Z = 0.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5. LOGISTIC RISK CURVE ================= -->
+<section id="curve" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">04 / GRAPH</div>
+      <h2>Logistic Risk Curve</h2>
+      <p class="lede">
+        แกน X แทนค่า U (Data Uncertainty) และแกน Y แทนค่า H (Hallucination Risk) — เส้นโค้งทั้ง 4 เส้นคือ 4 สถานการณ์
+        ที่ตรึงค่า C, P, B คงที่ต่างกัน วางเมาส์บนกราฟหรือรายการด้านขวาเพื่อไฮไลต์แต่ละกรณี
+      </p>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-flex">
+        <svg id="curve-svg" viewBox="0 0 640 420"></svg>
+        <div class="chart-legend" id="chart-legend"></div>
+      </div>
+    </div>
+
+    <div class="figure">
+      <img src="assets/images/desmos-scenarios-curve.png" alt="กราฟ Desmos แสดงเส้นโค้ง Logistic ทั้ง 4 สถานการณ์" loading="lazy">
+      <figcaption>
+        <span>Fig. 02 — กราฟต้นฉบับจาก Desmos (www.desmos.com/calculator)</span>
+        <span>x ∈ [0,1], y ∈ [0,1]</span>
+      </figcaption>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6. FOUR SCENARIOS ================= -->
+<section id="scenarios" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">05 / SCENARIO MATRIX</div>
+      <h2>สี่สถานการณ์เชิงแนวคิด</h2>
+      <p class="lede">คลิกที่การ์ดแต่ละใบเพื่อดูสมการ Z และ H ที่ได้จากการแทนค่า C, P, B ตามรายงาน</p>
+    </div>
+
+    <div class="scenario-grid" id="scenario-grid">
+      <div class="scenario-card risk-1" data-case="1">
+        <div class="tag">CASE 1 · BEST CASE</div>
+        <h4>ต่ำ + คุณภาพ Prompt สูง + บริบทเพียงพอ</h4>
+        <div class="chips"><span class="chip">C = 0.2</span><span class="chip">P = 0.9</span><span class="chip">B = 0.9</span></div>
+        <div class="zscore">Z₁ = 8x − 8.7</div>
+        <div class="scenario-detail">
+          สถานการณ์ที่เอื้ออำนวยต่อการลดความเสี่ยงมากที่สุด เนื่องจากค่าคงที่ใน Z ติดลบมาก
+          ต้องอาศัยค่า U ที่สูงมากจึงจะทำให้ H เข้าใกล้ค่าสูง (ทนทานสูงสุด)
+        </div>
+      </div>
+      <div class="scenario-card risk-2" data-case="2">
+        <div class="tag">CASE 2</div>
+        <h4>สูง + คุณภาพ Prompt สูง + บริบทเพียงพอ</h4>
+        <div class="chips"><span class="chip">C = 0.9</span><span class="chip">P = 0.9</span><span class="chip">B = 0.9</span></div>
+        <div class="zscore">Z₂ = 8x − 5.9</div>
+        <div class="scenario-detail">
+          แม้ Prompt คุณภาพสูงและบริบทเพียงพอเช่นเดียวกับ Case 1 แต่ความซับซ้อนของคำถามที่สูงขึ้นทำให้เส้นโค้งเลื่อนไปทางซ้าย —
+          มีความเสี่ยงสูงกว่าที่ค่า U เดียวกัน
+        </div>
+      </div>
+      <div class="scenario-card risk-3" data-case="3">
+        <div class="tag">CASE 3</div>
+        <h4>ต่ำ + คุณภาพ Prompt ต่ำ + บริบทไม่เพียงพอ</h4>
+        <div class="chips"><span class="chip">C = 0.2</span><span class="chip">P = 0.2</span><span class="chip">B = 0.2</span></div>
+        <div class="zscore">Z₃ = 8x − 5.2</div>
+        <div class="scenario-detail">
+          แม้คำถามไม่ซับซ้อน แต่คุณภาพ Prompt ต่ำและบริบทไม่เพียงพอทำให้เส้นโค้งเลื่อนไปทางซ้ายมากกว่า Case 1–2
+          แสดงว่าปัจจัย Prompt และบริบทมีบทบาทสำคัญไม่น้อยไปกว่าความซับซ้อนของคำถาม
+        </div>
+      </div>
+      <div class="scenario-card risk-4" data-case="4">
+        <div class="tag">CASE 4 · WORST CASE</div>
+        <h4>สูง + คุณภาพ Prompt ต่ำ + บริบทไม่เพียงพอ</h4>
+        <div class="chips"><span class="chip">C = 0.9</span><span class="chip">P = 0.2</span><span class="chip">B = 0.2</span></div>
+        <div class="zscore">Z₄ = 8x − 2.4</div>
+        <div class="scenario-detail">
+          สถานการณ์ที่มีความเสี่ยงสูงที่สุด เนื่องจากทุกปัจจัยส่งผลเพิ่มความเสี่ยงพร้อมกัน แม้ U จะยังไม่สูงมาก
+          H ก็สามารถเข้าใกล้ค่าสูงได้อย่างรวดเร็ว (จุดวิกฤต Z=0 ที่ x = 2.4/8 = 0.3)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 7. RISK THRESHOLDS ================= -->
+<section id="thresholds" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">06 / INTERPRETATION</div>
+      <h2>ระดับความเสี่ยง</h2>
+      <p class="lede">เกณฑ์เชิงแนวคิดสำหรับตีความค่า H ที่ได้จากแบบจำลอง</p>
+    </div>
+
+    <div class="threshold-bar">
+      <div class="threshold-seg low"><b>LOW</b><span>0 ≤ H &lt; 0.3</span></div>
+      <div class="threshold-seg mid"><b>MEDIUM</b><span>0.3 ≤ H &lt; 0.7</span></div>
+      <div class="threshold-seg high"><b>HIGH</b><span>0.7 ≤ H ≤ 1</span></div>
+    </div>
+
+    <div class="callout">
+      <b>ข้อยำสำคัญ —</b> เกณฑ์การแบ่งระดับนี้เป็นเกณฑ์เชิงแนวคิดสำหรับการแสดงผลและตีความของแบบจำลองในรายงานฉบับนี้เท่านั้น
+      มิใช่มาตรฐานทางวิทยาศาสตร์ มาตรฐานอุตสาหกรรม หรือเกณฑ์ที่ได้รับการรับรองอย่างเป็นทางการแต่อย่างใด
+    </div>
+  </div>
+</section>
+
+<!-- ================= 8. MULTI-FACTOR DIAGRAM ================= -->
+<section id="multifactor" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">07 / SYSTEMS VIEW</div>
+      <h2>ทำไม Hallucination จึงเป็น Multi-Factor</h2>
+      <p class="lede">ไม่มีปัจจัยใดเพียงตัวเดียวที่กำหนดความเสี่ยง — ตำแหน่งของเส้นโค้งแต่ละเส้นคือผลรวมของอิทธิพลจาก U, C, P, B พร้อมกัน</p>
+    </div>
+
+    <svg class="diagram-svg" id="multifactor-svg" viewBox="0 0 900 340"></svg>
+
+    <div class="insight-quote">
+      “ AI Hallucination <span>ไม่ได้เกิดจากปัจจัยเดียว</span> แต่เป็นผลจากหลายปัจจัยที่ทำงานร่วมกัน ”
+    </div>
+
+    <div class="figure">
+      <img src="assets/images/diagram-risk-model-en.png" alt="แผนภาพ AI Hallucination Risk Model แบบอังกฤษ" loading="lazy">
+      <figcaption>
+        <span>Fig. 03 — Reference diagram: AI Hallucination Risk Model</span>
+        <span>ใช้เป็นภาพอ้างอิงประกอบแนวคิด</span>
+      </figcaption>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 9. MATHEMATICAL INSIGHT ================= -->
+<section id="insight" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">08 / CALCULUS</div>
+      <h2>Mathematical Insight</h2>
+      <p class="lede">พฤติกรรมของฟังก์ชันโลจิสติกที่ Z มีค่าต่าง ๆ และอัตราการเปลี่ยนแปลงของความเสี่ยงเทียบกับ Z</p>
+    </div>
+
+    <div class="limit-grid">
+      <div class="limit-card"><div class="expr" id="lim-1"></div><p>Z มีค่าต่ำมาก → ความเสี่ยงเข้าใกล้ศูนย์</p></div>
+      <div class="limit-card"><div class="expr" id="lim-2"></div><p>Z ใกล้ 0 → จุดกึ่งกลาง ความชันสูงสุด</p></div>
+      <div class="limit-card"><div class="expr" id="lim-3"></div><p>Z มีค่าสูงมาก → ความเสี่ยงเข้าใกล้ค่าสูงสุด</p></div>
+    </div>
+
+    <div class="eq-block" style="margin-top:28px;">
+      <div id="eq-deriv"></div>
+      <div class="eq-note">อนุพันธ์ของ H เทียบกับ Z — มีค่าสูงสุด 0.25 เมื่อ H = 0.5 (จุดที่ความเสี่ยงไวต่อการเปลี่ยนแปลงมากที่สุด) และเข้าใกล้ 0 เมื่อ H เข้าใกล้ 0 หรือ 1</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10. SELF-VERIFICATION ================= -->
+<section id="verification" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">09 / ENGINEERING CONCEPT</div>
+      <h2>Self-Verification &amp; Feedback Loop</h2>
+      <p class="lede">
+        แนวคิดเชิงวิศวกรรมสำหรับลดความเสี่ยง Hallucination ด้วยการให้ AI ตรวจสอบคำตอบของตนเองก่อนส่งผลลัพธ์สุดท้าย
+        อ้างอิงจากขั้นตอนการทดลองและแผนภาพประกอบรายงาน
+      </p>
+    </div>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-index">01</div>
+        <div><h4>Initial Prompt</h4><p>เตรียมคำถามทดสอบและส่งคำถามให้ AI ประมวลผลและสร้างคำตอบเบื้องต้น (Draft Answer)</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-index">02</div>
+        <div><h4>Self-Critique &amp; Fact-Check</h4><p>ป้อน Prompt พิเศษให้ AI ตรวจสอบคำตอบของตัวเอง เทียบเคียงกับบริบทแหล่งอ้างอิงและข้อกำหนดของ Prompt</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-index">03</div>
+        <div><h4>Revision</h4><p>หากผลตรวจสอบไม่ผ่านเกณฑ์ AI จะแก้ไขคำตอบหรือระบุขอบเขตความเสี่ยงที่ยังคงเหลืออยู่ แล้ววนกลับไปตรวจซ้ำ</p></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-index">04</div>
+        <div><h4>Final Output Validation</h4><p>เมื่อผ่านเกณฑ์ประเมินแล้ว จึงบันทึกคำตอบสุดท้ายและรวบรวม Feedback เพื่อปรับปรุงคุณภาพ Prompt และบริบทในรอบถัดไป</p></div>
+      </div>
+    </div>
+
+    <div class="figure">
+      <img src="assets/images/diagram-experiment-flow-th.png" alt="ผังขั้นตอนการทดลอง AI ตอบคำถาม" loading="lazy">
+      <figcaption>
+        <span>Fig. 04 — ขั้นตอนการทดลอง AI ตอบคำถาม (ภาษาไทย)</span>
+        <span>แผนภาพประกอบแนวคิด Self-Verification</span>
+      </figcaption>
+    </div>
+
+    <div class="callout info">
+      <b>หมายเหตุสำคัญ —</b> เอกสารประกอบอีกฉบับ (Decoding AI Hallucination) มีการยกตัวอย่างตัวเลขเชิงภาพประกอบ
+      เช่น อัตราความผิดพลาดลดลงจาก ~30% เหลือ ~12% หลังผ่านกระบวนการ Self-Verification ตัวเลขดังกล่าว
+      <b>เป็นภาพประกอบแนวคิดจากเอกสารอีกฉบับหนึ่ง ไม่ใช่ผลการทดลองจริงของแบบจำลองทางคณิตศาสตร์ในรายงานนี้</b>
+      และไม่มีการยืนยันว่าเป็นการทดลองชุดเดียวกัน จึงนำมาแสดงเพื่อประกอบแนวคิดเท่านั้น ดูไฟล์ต้นฉบับได้ที่ส่วน
+      <a href="#sources">Sources</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 11. LIMITATIONS ================= -->
+<section id="limitations" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">10 / SCOPE</div>
+      <h2>ข้อจำกัดของแบบจำลอง</h2>
+    </div>
+    <div class="limit-list">
+      <div class="limit-item"><span class="num">01</span> ค่าพารามิเตอร์ a, b, c, d และค่าคงที่ k เป็นค่าที่กำหนดขึ้นเพื่อการสาธิตและจำลองพฤติกรรมของแบบจำลองเท่านั้น</div>
+      <div class="limit-item"><span class="num">02</span> ค่าดังกล่าวไม่ใช่ข้อมูลที่ได้จากการฝึกฝน (Training) หรือการประเมินผลจริงของระบบ AI ใด ๆ</div>
+      <div class="limit-item"><span class="num">03</span> แบบจำลองนี้ไม่สามารถนำไปใช้ทำนายความเสี่ยง Hallucination ที่แท้จริงของแบบจำลองปัญญาประดิษฐ์โมเดลใดโมเดลหนึ่งได้</div>
+      <div class="limit-item"><span class="num">04</span> ระบบ AI จริงมีปัจจัยที่เกี่ยวข้องอีกจำนวนมาก เช่น สถาปัตยกรรม วิธีการฝึกฝน คุณภาพข้อมูลฝึก และกลไกการถอดรหัส ซึ่งแบบจำลองนี้ไม่ได้ครอบคลุม</div>
+      <div class="limit-item"><span class="num">05</span> วัตถุประสงค์หลักคือการอธิบายความสัมพันธ์เชิงแนวคิดระหว่างปัจจัยต่าง ๆ กับความเสี่ยงของ Hallucination มิใช่เครื่องมือวัดผลเชิงปริมาณที่แม่นยำ</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 12. CONCLUSION ================= -->
+<section id="conclusion" class="reveal tight">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">11 / CONCLUSION</div>
+      <h2>สรุป</h2>
+      <p class="lede">
+        ผลจากการวิเคราะห์กราฟทั้ง 4 กรณีแสดงให้เห็นอย่างชัดเจนว่าความเสี่ยงของ Hallucination มิได้ถูกกำหนดโดยปัจจัยใดปัจจัยหนึ่งเพียงลำพัง
+        หากแต่เป็นผลรวมของปัจจัยหลายด้านที่ทำงานร่วมกันอย่างซับซ้อน ในเชิงคณิตศาสตร์ คุณสมบัติของฟังก์ชันโลจิสติกและอนุพันธ์ของมัน
+        ช่วยอธิบายว่าความเสี่ยงจะไวต่อการเปลี่ยนแปลงมากที่สุดในช่วงความเสี่ยงระดับปานกลาง ซึ่งมีนัยสำคัญเชิงแนวคิดต่อการออกแบบมาตรการลดความเสี่ยง
+        เช่น การพัฒนาคุณภาพของ Prompt หรือการเพิ่มบริบทที่เกี่ยวข้อง แบบจำลองนี้เป็นเครื่องมือเชิงแนวคิดเพื่อสนับสนุนความเข้าใจเท่านั้น
+        มิใช่มาตรวัดทางวิทยาศาสตร์ที่ผ่านการพิสูจน์หรือรับรองจากการทดลองจริง
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOURCES / GALLERY ================= -->
+<section id="sources" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">12 / SOURCE MATERIAL</div>
+      <h2>ไฟล์และภาพต้นฉบับของโครงงาน</h2>
+      <p class="lede">ภาพประกอบและเอกสารทั้งหมดที่ใช้เป็นแหล่งข้อมูลหลักของโครงงานนี้ คลิกเพื่อเปิดดูฉบับเต็ม</p>
+    </div>
+
+    <div class="gallery-grid">
+      <a class="gallery-card" href="assets/images/hallucination-comparison.jpg" target="_blank" rel="noopener">
+        <img src="assets/images/hallucination-comparison.jpg" alt="AI Hallucination comparison figure">
+        <div class="cap"><b>Truth vs. Probability</b><span>hallucination-comparison.jpg</span></div>
+      </a>
+      <a class="gallery-card" href="assets/images/desmos-scenarios-curve.png" target="_blank" rel="noopener">
+        <img src="assets/images/desmos-scenarios-curve.png" alt="Desmos logistic curve graph">
+        <div class="cap"><b>Logistic Risk Curve (Desmos)</b><span>desmos-scenarios-curve.png</span></div>
+      </a>
+      <a class="gallery-card" href="assets/images/desmos-linear-ref.png" target="_blank" rel="noopener">
+        <img src="assets/images/desmos-linear-ref.png" alt="Desmos reference graph">
+        <div class="cap"><b>Reference plot (Desmos)</b><span>desmos-linear-ref.png</span></div>
+      </a>
+      <a class="gallery-card" href="assets/images/diagram-risk-model-en.png" target="_blank" rel="noopener">
+        <img src="assets/images/diagram-risk-model-en.png" alt="AI hallucination risk model diagram">
+        <div class="cap"><b>Risk Model Diagram</b><span>diagram-risk-model-en.png</span></div>
+      </a>
+      <a class="gallery-card" href="assets/images/diagram-experiment-flow-th.png" target="_blank" rel="noopener">
+        <img src="assets/images/diagram-experiment-flow-th.png" alt="Experiment flow diagram in Thai">
+        <div class="cap"><b>ผังขั้นตอนการทดลอง</b><span>diagram-experiment-flow-th.png</span></div>
+      </a>
+    </div>
+
+    <div class="doclinks">
+      <a class="doclink" href="assets/docs/conceptual-model-report.pdf" target="_blank" rel="noopener">
+        <span class="ext">PDF</span>
+        <div><b>รายงานฉบับเต็ม (Conceptual Model Report)</b><span>conceptual-model-report.pdf</span></div>
+      </a>
+      <a class="doclink" href="assets/docs/decoding-ai-hallucination-slides.pdf" target="_blank" rel="noopener">
+        <span class="ext">PDF</span>
+        <div><b>เอกสารประกอบ Self-Verification</b><span>decoding-ai-hallucination-slides.pdf</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 13. ABOUT ================= -->
+<section id="about" class="reveal">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">13 / RESEARCHER</div>
+      <h2>About the Researcher</h2>
+    </div>
+    <div class="about-card">
+      <div class="about-avatar"><span>KV</span></div>
+      <div>
+        <div class="about-name">Krittayod Vipromha</div>
+        <div class="about-id">Student ID · 2610717302033</div>
+        <div class="about-org">
+          Computer Engineering and Artificial Intelligence<br>
+          Faculty of Engineering<br>
+          University of the Thai Chamber of Commerce
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>AI HALLUCINATION — A Conceptual Mathematical Model · Krittayod Vipromha · UTCC 2569</p>
+    <p>Conceptual model for educational purposes only — not an empirical measurement of any real AI system.</p>
+  </div>
+</footer>
+
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/[email protected]/dist/katex.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
